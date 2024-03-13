@@ -87,9 +87,13 @@ class App(customtkinter.CTk):
         self.checkbox_3.grid(row=3, column=0, pady=20, padx=20, sticky="n")
 
 
+        #CREATE A BIGGER LOAD DATA BUTTON IN ROW 1 AND COLUMN 1+2+3
+        self.load_data_button = customtkinter.CTkButton(self, text="LOAD DATA", command=lambda: self.load_data_event)
+        self.load_data_button.grid(row=1, column=1, columnspan=1, padx=(20, 0), pady=(30, 30), sticky="nsew")
+
         #CREATE A BIGGER PROCESS BUTTON IN ROW 1 AND COLUMN 1+2+3
         self.process_button = customtkinter.CTkButton(self, text="PROCESS", command=self.process_button_event)
-        self.process_button.grid(row=1, column=2, columnspan=2, padx=(20, 20), pady=(20, 20), sticky="nsew")
+        self.process_button.grid(row=1, column=2, columnspan=2, padx=(20, 20), pady=(30, 30), sticky="nsew")
 
         # set default values
         self.sidebar_button_1.configure(text="Data Path")
@@ -115,7 +119,10 @@ class App(customtkinter.CTk):
         self.textbox.configure(state="disabled")
 
 
-   
+    def insert_to_log(self, message):
+        self.textbox.configure(state="normal")
+        self.textbox.insert(text= f" {message}\n\n", index="end")
+        self.textbox.configure(state="disabled")
 
     def change_appearance_mode_event(self, new_appearance_mode: str):
         customtkinter.set_appearance_mode(new_appearance_mode)
@@ -136,9 +143,8 @@ class App(customtkinter.CTk):
             # self.sidebar_button_1.configure(text=data_path)  # Update button text
             self.data_path = data_path
             #append to last line of textbox for logging
-            self.textbox.configure(state="normal")
-            self.textbox.insert(text= f" Sucess Loading Data Path: {data_path}\n\n", index="end")
-            self.textbox.configure(state="disabled")
+            self.insert_to_log(f" Sucess Loading Data Path: {data_path}")
+
 
         else:
             report_path = filedialog.askopenfilename(initialdir = "/",
@@ -149,9 +155,7 @@ class App(customtkinter.CTk):
             # self.sidebar_button_2.configure(text=report_path)  # Update button text
             self.report_path = report_path
             #append to textbox for logging
-            self.textbox.configure(state="normal")
-            self.textbox.insert(text= f" Sucess Loading Report Path: {report_path}\n\n", index="end")
-            self.textbox.configure(state="disabled")
+            self.insert_to_log(f" Sucess Loading Report Path: {report_path}")
         
     
     def middle_position(self,window_width, window_height):
@@ -162,7 +166,8 @@ class App(customtkinter.CTk):
         y_coordinate = (screen_height // 2) - (window_height // 2)
         return f'{window_width}x{window_height}+{x_coordinate}+{y_coordinate}'
 
-        
+    def load_data_event(self):
+        pass
     def process_button_event(self):
         pass
 
